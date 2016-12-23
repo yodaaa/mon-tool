@@ -46,13 +46,23 @@ mon1.each do |node|
   puts ""
 end
 =end
-
+str =""
 mon2.each do |node|
-  next if node.css('td[1]').empty?
-  p node.css('td[1]').inner_text;
-  next if node.css('td[2]').empty?
-  p node.css('td[2]').inner_text;
-  next if node.css('td[3]/a').empty?
-  p node.css('td[3]/a').attribute('href').value;
-  puts ""
+  if(node.css('td').empty?)
+    str << node.css('th[1]').inner_text
+    str << "\n"
+  else
+    next if node.css('td[1]').empty?
+    str << node.css('td[1]').inner_text
+    next if node.css('td[2]').empty?
+    str << node.css('td[2]').inner_text
+    next if node.css('td[3]/a').empty?
+    str << node.css('td[3]/a').attribute('href').value
+    str << "\n"
+  end
+  puts str
+end
+
+File.open("data/output_s.txt", "w") do |f|
+  f.puts("#{str}")
 end
